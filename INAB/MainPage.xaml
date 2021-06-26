@@ -1,0 +1,135 @@
+﻿<Page
+    x:Class="INAB.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:viewmodels="using:INAB.ViewModels"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    
+    <controls:DockPanel LastChildFill="True">
+    
+        <CommandBar x:Name="MainBar" Background="DarkOliveGreen" Opacity="0.7"
+                    IsOpen="False"  OverflowButtonVisibility="Collapsed"
+                    controls:DockPanel.Dock="Top">
+            
+            <AppBarButton x:Name="NewAccountFlyoutButton" Icon="Add"
+                          Command="{x:Bind ShowAccountFlyout}"
+                          AllowFocusOnInteraction="True"
+                          Foreground="White">
+                <AppBarButton.Flyout>
+                    <Flyout FlyoutPresenterStyle="{StaticResource FlyoutStyle}">
+                        <StackPanel Style="{StaticResource FlyoutPanel}">
+                            
+                            <TextBlock Text="Add an Account" FontSize="18" HorizontalAlignment="Center" Foreground="Black"/>
+                            
+                            <controls:HeaderedContentControl Style="{StaticResource FlyoutInput}">
+                                <controls:HeaderedContentControl.Header>
+                                    <TextBlock Text="Name:" Padding="0 0 9 0" VerticalAlignment="Center"/>
+                                </controls:HeaderedContentControl.Header>
+                                <TextBox Text="{Binding StatusVM.AccountNameField, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200"/>
+                            </controls:HeaderedContentControl>
+                            
+                            <controls:HeaderedContentControl Style="{StaticResource FlyoutInput}">
+                                <controls:HeaderedContentControl.Header>
+                                    <TextBlock Text="Balance:" VerticalAlignment="Center"/>
+                                </controls:HeaderedContentControl.Header>
+
+                                <TextBox Text="{Binding StatusVM.AccountValueField, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200"/>
+                            </controls:HeaderedContentControl>
+                            
+                            <Button Content="Add" Command="{Binding StatusVM.RequestAddingAccount}" Style="{StaticResource FlyoutButton}"/>
+                        
+                        </StackPanel>
+                    </Flyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+            
+            <AppBarButton x:Name="NewTransactionFlyoutButton" Icon="Add"
+                          Command="{x:Bind ShowTransactionFlyout}"
+                          AllowFocusOnInteraction="True"
+                          Foreground="White">
+                <AppBarButton.Flyout>
+                    <Flyout FlyoutPresenterStyle="{StaticResource FlyoutStyle}">
+                        <StackPanel Style="{StaticResource FlyoutPanel}">
+
+                            <TextBlock Text="Add a Transaction" FontSize="18" HorizontalAlignment="Center" Foreground="Black"/>
+
+                            <controls:HeaderedContentControl Style="{StaticResource FlyoutInput}">
+                                <controls:HeaderedContentControl.Header>
+                                    <TextBlock Text="Amount:" Padding="0 0 9 0" VerticalAlignment="Center"/>
+                                </controls:HeaderedContentControl.Header>
+                                <TextBox Text="{Binding StatusVM.TransactionValueField, Mode=TwoWay}" Width="190"/>
+                            </controls:HeaderedContentControl>
+                            
+                            <controls:HeaderedContentControl Style="{StaticResource FlyoutInput}">
+                                <controls:HeaderedContentControl.Header>
+                                    <TextBlock Text="Type:" Padding="0 0 9 0" VerticalAlignment="Center"/>
+                                </controls:HeaderedContentControl.Header>
+                                <TextBox Text="{Binding StatusVM.TransactionTypeField, Mode=TwoWay}" Width="200"/>
+                            </controls:HeaderedContentControl>
+
+                            <controls:HeaderedContentControl Style="{StaticResource FlyoutInput}">
+                                
+                                <controls:HeaderedContentControl.Header>
+                                    <TextBlock Text="Account it was pulled from:" Padding="0 0 9 0" VerticalAlignment="Center"/>
+                                </controls:HeaderedContentControl.Header>
+
+                                <ComboBox ItemsSource="{Binding DataVM.Accounts}"
+                                          SelectedItem="{Binding DataVM.SelectedAccount, Mode=TwoWay}"
+                                          SelectedIndex="0">
+
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Name}" Width="160"/>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                    
+                                </ComboBox>
+                            </controls:HeaderedContentControl>
+
+                            <CalendarDatePicker x:Name="TransactionDate" 
+                                                Date="{Binding StatusVM.TxDate, Mode=TwoWay}"
+                                                Header="Transaction Date:"
+                                                Foreground="Black"/>
+                            
+                            <Button Content="Add" Command="{Binding StatusVM.RequestAddingTransaction}" Style="{StaticResource FlyoutButton}"/>
+                        
+                        </StackPanel>
+                    </Flyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+            
+        </CommandBar>
+
+        <CommandBar x:Name="StatusBar" Style="{StaticResource StatusBar}"
+                    IsOpen="False" FlowDirection="RightToLeft"
+                    OverflowButtonVisibility="Collapsed" 
+                    controls:DockPanel.Dock="Bottom">
+            <AppBarSeparator/>
+            <AppBarButton Content="{Binding StatusVM.StatusText}" FontFamily="Roboto" Width="300"></AppBarButton>
+            <AppBarSeparator/>
+            <AppBarToggleButton Style="{StaticResource StatusToggleButton}" Icon="{Binding StatusVM.StatusIcon}"/>
+        </CommandBar>
+
+        <controls:InAppNotification x:Name="NotifyBar"
+                                    controls:DockPanel.Dock="Bottom"
+                                    StackMode="Replace"
+                                    FontSize="18">
+        </controls:InAppNotification>
+        
+        <NavigationView x:Name="NavView"
+                        IsSettingsVisible="False"
+                        PaneDisplayMode="Auto" FontFamily="Roboto"
+                        PaneTitle="Directory">
+            <NavigationView.MenuItems>
+                <NavigationViewItem Icon="Home">Home</NavigationViewItem>
+                <NavigationViewItem Icon="Placeholder">Transactions</NavigationViewItem>
+            </NavigationView.MenuItems>
+            <Frame x:Name="Display"/>
+        </NavigationView>
+        
+    </controls:DockPanel>
+</Page>

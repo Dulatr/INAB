@@ -1,0 +1,127 @@
+﻿<Page
+    x:Class="INAB.Views.TransactionsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:INAB.Views"
+    xmlns:converters="using:INAB.Models.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="3*"/>
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                
+                 <controls:HeaderedContentControl Orientation="Horizontal">
+                    <controls:HeaderedContentControl.Header>By Account #:</controls:HeaderedContentControl.Header>
+                    <ComboBox ItemsSource="{Binding DataVM.Accounts}" 
+                              SelectedItem="{Binding DataVM.SelectedAccountSearch, Mode=TwoWay}"
+                              SelectedIndex="0">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ID}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </controls:HeaderedContentControl>
+
+                <controls:HeaderedContentControl Orientation="Horizontal" Grid.Row="1">
+                    <controls:HeaderedContentControl.Header>By Transaction #:</controls:HeaderedContentControl.Header>
+                    <TextBox Text="{Binding DataVM.TxIdSearchTerm, Mode=TwoWay}"/>
+                </controls:HeaderedContentControl>               
+            </Grid>
+
+
+            <Button Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Command="{Binding DataVM.Query}"
+                    Width="120">
+                Search
+            </Button>
+        </Grid>
+        
+        <!--Transaction view-->
+        <ScrollViewer Grid.Row="1">
+            <ItemsControl ItemsSource="{Binding DataVM.Transactions}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <controls:Expander Style="{StaticResource TransactionTiles}">
+                            <controls:Expander.Resources>
+                                <AcrylicBrush x:Key="SystemControlHighlightListAccentLowBrush" BackgroundSource="Backdrop" TintColor="PaleGoldenrod" TintOpacity="0.6"/>
+                                <AcrylicBrush x:Key="SystemControlHighlightListAccentMediumBrush" BackgroundSource="Backdrop" TintColor="PaleGoldenrod" TintOpacity="0.4"/>
+                                <AcrylicBrush x:Key="SystemControlHighlightListAccentHighBrush" BackgroundSource="Backdrop" TintColor="PaleGoldenrod" TintOpacity="0.4"/>
+                            </controls:Expander.Resources>
+                    
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <controls:HeaderedContentControl Orientation="Horizontal" 
+                                                                 Grid.Column="0" Grid.Row="0"
+                                                                 Margin="12">
+                                    <controls:HeaderedContentControl.Header>
+                                        <TextBlock Text="Account #:" Padding="0 0 12 0"/>
+                                    </controls:HeaderedContentControl.Header>
+                                    <TextBlock Text="{Binding AccountID}" HorizontalTextAlignment="Right"/>
+                                </controls:HeaderedContentControl>
+                                <controls:HeaderedContentControl Orientation="Horizontal" 
+                                                                 Grid.Column="0" Grid.Row="1"
+                                                                 Margin="12">
+                                    <controls:HeaderedContentControl.Header>
+                                        <TextBlock Text="Type:" Padding="0 0 12 0"/>
+                                    </controls:HeaderedContentControl.Header>
+                                    <TextBlock Text="{Binding Type}" HorizontalTextAlignment="Right"/>
+                                </controls:HeaderedContentControl>
+                                <controls:HeaderedContentControl Orientation="Horizontal" 
+                                                                 Grid.Column="1" Grid.Row="0"
+                                                                 Margin="12">
+                                    <controls:HeaderedContentControl.Header>
+                                        <TextBlock Text="Transaction #:" Padding="0 0 12 0"/>
+                                    </controls:HeaderedContentControl.Header>
+                                    <TextBlock Text="{Binding ID}" HorizontalTextAlignment="Right"/>
+                                </controls:HeaderedContentControl>
+                            </Grid>
+
+                            <controls:Expander.Header>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition MinWidth="120"/>
+                                        <ColumnDefinition MinWidth="40"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding Amount}" Foreground="Black"/>
+                                    <TextBlock Text="06/21/2021" Grid.Column="1" HorizontalAlignment="Right" Foreground="Black"/>
+                                </Grid>
+                            </controls:Expander.Header>
+
+                        </controls:Expander>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</Page>
