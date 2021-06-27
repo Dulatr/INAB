@@ -33,11 +33,11 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                
-                 <controls:HeaderedContentControl Orientation="Horizontal">
+
+                <controls:HeaderedContentControl Orientation="Horizontal">
                     <controls:HeaderedContentControl.Header>By Account #:</controls:HeaderedContentControl.Header>
-                    <ComboBox ItemsSource="{Binding DataVM.Accounts}" 
-                              SelectedItem="{Binding DataVM.SelectedAccountSearch, Mode=TwoWay}"
+                    <ComboBox ItemsSource="{Binding Accounts}" 
+                              SelectedItem="{Binding SelectedAccountSearch, Mode=TwoWay}"
                               SelectedIndex="0">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
@@ -49,12 +49,11 @@
 
                 <controls:HeaderedContentControl Orientation="Horizontal" Grid.Row="1">
                     <controls:HeaderedContentControl.Header>By Transaction #:</controls:HeaderedContentControl.Header>
-                    <TextBox Text="{Binding DataVM.TxIdSearchTerm, Mode=TwoWay}"/>
-                </controls:HeaderedContentControl>               
+                    <TextBox Text="{Binding TxIdSearchTerm, Mode=TwoWay}"/>
+                </controls:HeaderedContentControl>
             </Grid>
 
-
-            <Button Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Command="{Binding DataVM.Query}"
+            <Button Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Command="{Binding Query}"
                     Width="120">
                 Search
             </Button>
@@ -62,7 +61,7 @@
         
         <!--Transaction view-->
         <ScrollViewer Grid.Row="1">
-            <ItemsControl ItemsSource="{Binding DataVM.Transactions}">
+            <ItemsControl ItemsSource="{Binding Transactions}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <controls:Expander Style="{StaticResource TransactionTiles}">

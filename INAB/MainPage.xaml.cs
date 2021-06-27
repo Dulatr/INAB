@@ -21,7 +21,9 @@ namespace INAB
             this.DataContext = new MainVM();
 
             NavView.ItemInvoked += NavView_ItemInvoked;
+
             Display.Navigate(ReturnPage("Home"));
+            (Display.Content as Page).DataContext = ViewModel.DataVM;
 
             ShowAccountFlyout = new RelayCommand(() =>
             {
@@ -43,7 +45,7 @@ namespace INAB
             Display.Navigate(ReturnPage(args.InvokedItem as string));
 
             if ((args.InvokedItem as string) == "Home" || (args.InvokedItem as string) == "Transactions")
-                (Display.Content as Page).DataContext = ViewModel;
+                (Display.Content as Page).DataContext = ViewModel.DataVM;
         }
 
         private System.Type ReturnPage(string _pageName)

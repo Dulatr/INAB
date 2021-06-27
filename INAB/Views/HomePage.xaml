@@ -9,7 +9,7 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <controls:AdaptiveGridView ItemsSource="{Binding DataVM.Accounts}"
+    <controls:AdaptiveGridView ItemsSource="{Binding Accounts}"
                                ItemHeight="640" DesiredWidth="160" Margin="12"
                                x:Name="AccountTiles">
         <controls:AdaptiveGridView.ItemTemplate>
@@ -18,7 +18,7 @@
                     <Grid.ContextFlyout>
                         <MenuFlyout>
                             <MenuFlyoutItem Text="Delete" 
-                                            Command="{Binding DataContext.DataVM.RequestDeletingAccount, ElementName=AccountTiles }"
+                                            Command="{Binding DataContext.RequestDeletingAccount, ElementName=AccountTiles }"
                                             CommandParameter="{Binding ID}"/>
                         </MenuFlyout>
                     </Grid.ContextFlyout>

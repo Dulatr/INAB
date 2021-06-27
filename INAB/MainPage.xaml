@@ -122,7 +122,7 @@
         
         <NavigationView x:Name="NavView"
                         IsSettingsVisible="False"
-                        PaneDisplayMode="Auto" FontFamily="Roboto"
+                        PaneDisplayMode="Top" FontFamily="Roboto"
                         PaneTitle="Directory">
             <NavigationView.MenuItems>
                 <NavigationViewItem Icon="Home">Home</NavigationViewItem>
