@@ -10,7 +10,6 @@ namespace INAB.Views
         public TransactionsPage()
         {
             this.InitializeComponent();
-            this.DataContext = new MainVM();
         }
     }
 }

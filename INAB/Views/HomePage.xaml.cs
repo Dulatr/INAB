@@ -13,7 +13,6 @@ namespace INAB.Views
         public HomePage()
         {
             this.InitializeComponent();
-            this.DataContext = new MainVM();
         }
     }
 }

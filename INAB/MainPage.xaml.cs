@@ -41,6 +41,9 @@ namespace INAB
         private void NavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
             Display.Navigate(ReturnPage(args.InvokedItem as string));
+
+            if ((args.InvokedItem as string) == "Home" || (args.InvokedItem as string) == "Transactions")
+                (Display.Content as Page).DataContext = ViewModel;
         }
 
         private System.Type ReturnPage(string _pageName)
@@ -63,6 +66,11 @@ namespace INAB
                     NewTransactionFlyoutButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
                     return typeof(Page);
             }
+        }
+
+        private MainVM ViewModel
+        {
+            get { return DataContext as MainVM; }
         }
     }
 }
