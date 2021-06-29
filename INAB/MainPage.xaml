@@ -127,6 +127,7 @@
             <NavigationView.MenuItems>
                 <NavigationViewItem Icon="Home">Home</NavigationViewItem>
                 <NavigationViewItem Icon="Placeholder">Transactions</NavigationViewItem>
+                <NavigationViewItem Icon="OutlineStar">Budget</NavigationViewItem>
             </NavigationView.MenuItems>
             <Frame x:Name="Display"/>
         </NavigationView>

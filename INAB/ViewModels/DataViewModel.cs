@@ -7,7 +7,7 @@ using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Mvvm.Messaging.Messages;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 
 namespace INAB.ViewModels
 {
@@ -18,7 +18,7 @@ namespace INAB.ViewModels
 
         public DataViewModel()
         {
-            WeakReferenceMessenger.Default.Register<ValueChangedMessage<Account>>(this,(r,m)=>AccountAddRequest(m.Value));
+            WeakReferenceMessenger.Default.Register<ValueChangedMessage<Account>>(this, (r,m) => AccountAddRequest(m.Value));
             WeakReferenceMessenger.Default.Register<ValueChangedMessage<Transaction>>(this, (r, m) => TransactionAddRequest(m.Value));
 
             RequestDeletingAccount = new RelayCommand<int>((id)=>AccountDeleteRequest(id));
@@ -27,17 +27,21 @@ namespace INAB.ViewModels
             foreach (Account _acct in App.DataServicer.GetAllRows<List<Account>>())
             {
                 Accounts.Add(_acct);
+                _netValue += _acct.Balance;
             }
             foreach (Transaction _tx in App.DataServicer.GetAllRows<List<Transaction>>())
             {
                 Transactions.Add(_tx);
+            }
+            foreach (Type _type in App.DataServicer.GetAllRows<List<Type>>())
+            {
+                BudgetItems.Add(new OrbitViewDataItem() { Diameter = 1.0, Label = _type.Identifier, Distance = 0.3, });
             }
 
             if (Accounts.Count != 0)
             {
                 SelectedAccount = Accounts[0];
             }
-
         }
 
         public void AccountAddRequest(Account account)
@@ -151,6 +155,34 @@ namespace INAB.ViewModels
         }
 
         private string _query;
+
+        private double _netValue;
+        public double NetValue
+        {
+            get
+            {
+                return _netValue;
+            }
+            set
+            {
+                SetProperty(ref _netValue, value);
+            }
+        }
+
+        private OrbitViewDataItemCollection _budgetItems;
+        public OrbitViewDataItemCollection BudgetItems
+        {
+            get
+            {
+                if (_budgetItems == null)
+                    _budgetItems = new OrbitViewDataItemCollection();
+                return _budgetItems;
+            }
+            set
+            {
+                SetProperty(ref _budgetItems, value);
+            }
+        }
 
         private Account _selectedAccount;
         public Account SelectedAccount

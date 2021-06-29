@@ -44,7 +44,7 @@ namespace INAB
         {
             Display.Navigate(ReturnPage(args.InvokedItem as string));
 
-            if ((args.InvokedItem as string) == "Home" || (args.InvokedItem as string) == "Transactions")
+            if ((args.InvokedItem as string) == "Home" || (args.InvokedItem as string) == "Transactions" || (args.InvokedItem as string) == "Budget")
                 (Display.Content as Page).DataContext = ViewModel.DataVM;
         }
 
@@ -62,6 +62,11 @@ namespace INAB
                     NewTransactionFlyoutButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
                     NewAccountFlyoutButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
                     return typeof(TransactionsPage);
+                case "Budget":
+                    NavView.Header = "Budget";
+                    NewTransactionFlyoutButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                    NewAccountFlyoutButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                    return typeof(BudgetPage);
                 default:
                     NavView.Header = "Not Home";
                     NewAccountFlyoutButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
