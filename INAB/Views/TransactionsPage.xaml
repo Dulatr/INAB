@@ -28,6 +28,7 @@
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
+
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -61,7 +62,7 @@
         
         <!--Transaction view-->
         <ScrollViewer Grid.Row="1">
-            <ItemsControl ItemsSource="{Binding Transactions}">
+            <ItemsControl x:Name="TxList" ItemsSource="{Binding Transactions}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <controls:Expander Style="{StaticResource TransactionTiles}">
@@ -80,6 +81,7 @@
                                     <RowDefinition/>
                                     <RowDefinition/>
                                 </Grid.RowDefinitions>
+
                                 <controls:HeaderedContentControl Orientation="Horizontal" 
                                                                  Grid.Column="0" Grid.Row="0"
                                                                  Margin="12">
@@ -108,6 +110,16 @@
 
                             <controls:Expander.Header>
                                 <Grid>
+                                    
+                                    <Grid.ContextFlyout>
+                                        <MenuFlyout>
+                                            <MenuFlyoutItem Command="{Binding DataContext.RequestDeletingTransaction, ElementName=TxList}"
+                                                        CommandParameter="{Binding ID}">
+                                                Delete
+                                            </MenuFlyoutItem>
+                                        </MenuFlyout>
+                                    </Grid.ContextFlyout>
+                                    
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition MinWidth="120"/>
                                         <ColumnDefinition MinWidth="40"/>

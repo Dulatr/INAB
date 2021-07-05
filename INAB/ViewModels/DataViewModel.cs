@@ -14,6 +14,7 @@ namespace INAB.ViewModels
     public class DataViewModel : ObservableObject
     {
         public RelayCommand<int> RequestDeletingAccount { get; set; }
+        public RelayCommand<int> RequestDeletingTransaction { get; set; }
         public RelayCommand Query { get; set; }
 
         public DataViewModel()
@@ -22,6 +23,7 @@ namespace INAB.ViewModels
             WeakReferenceMessenger.Default.Register<ValueChangedMessage<Transaction>>(this, (r, m) => TransactionAddRequest(m.Value));
 
             RequestDeletingAccount = new RelayCommand<int>((id)=>AccountDeleteRequest(id));
+            RequestDeletingTransaction = new RelayCommand<int>((id) => TransactionDeleteRequest(id));
             Query = new RelayCommand(() => BuildAndExecuteQuery(ref _query));
 
             foreach (Account _acct in App.DataServicer.GetAllRows<List<Account>>())
@@ -42,6 +44,29 @@ namespace INAB.ViewModels
             {
                 SelectedAccount = Accounts[0];
             }
+        }
+
+        public void TransactionDeleteRequest(int ID)
+        {
+            var _tx = App.DataServicer.GetTableRow<Transaction>("transactions", "id", $"{ID}");
+
+            if (_tx == null)
+            {
+                WeakReferenceMessenger.Default.Send(new ValueChangedMessage<Status>(new Status($"Failed to remove transaction #{ID}", StatusType.ERR)));
+                WeakReferenceMessenger.Default.Send(new ValueChangedMessage<Notification>(new Notification($"Could not remove transaction #{ID}, it was not found.")));
+                return;
+            }
+
+            App.DataServicer.RemoveData(_tx);
+
+            Transactions.Clear();
+
+            foreach(Transaction t in App.DataServicer.GetAllRows<List<Transaction>>())
+            {
+                Transactions.Add(t);
+            }
+
+            WeakReferenceMessenger.Default.Send(new ValueChangedMessage<Status>(new Status($"Transaction #{ID} successfully removed!")));
         }
 
         public void AccountAddRequest(Account account)
